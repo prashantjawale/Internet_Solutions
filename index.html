@@ -1,0 +1,212 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Valentine's Day Date Request</title> 
+</head> 
+<script> 
+function showDate() { 
+document.getElementById("date").innerHTML = "Great! How about we go out on February 14th?"; 
+} 
+</script>
+<style>
+body {
+ 
+
+}
+
+.content {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  z-index: 2;
+}
+
+.content::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.5;
+  z-index: 1; /* Give the ::before pseudo-element a lower z-index than the content */
+}
+
+
+h1 {
+  font-size: 40px;
+  color: #8B0000; /* A deep red color */
+  text-shadow: 2px 2px 4px #000000; /* A subtle shadow effect */
+}
+
+form {
+  margin: 20px 0;
+  display: flex; /* Align the buttons horizontally */
+  justify-content: center;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 20px;
+  background-color: #FFFFFF; /* A light color for the buttons */
+  border: none; /* Remove the border */
+  border-radius: 10px; /* Give the buttons rounded edges */
+  box-shadow: 2px 2px 4px #000000; /* A subtle shadow effect */
+  margin: 0 10px; /* Add some space between the buttons */
+  font-family: 'Courier New', Courier, monospace; /* A font that looks handwritten */
+}
+
+button:hover {
+  background-color: #F5B183; /* Change the color of the button when hovered over */
+  cursor: pointer; /* Change the cursor to a hand when hovered over */
+}
+
+#date {
+  font-size: 35px;
+  color: #8B0000; /* A deep red color */
+  margin-top: 20px;
+}
+
+
+</style>
+<body> 
+<div class="content">
+	<div style= 'z-index:3'>
+	  <p id="date"></p>
+	  <h1 id="question">How are you?</h1>
+
+	  <button id="yes" onclick="storeAnswer('1')">Good</button>
+	  <button id="no" onclick="storeAnswer('0')">Ehh</button>
+	</div>
+</div>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("qcBgwphZDYrAWL2EP");
+   })();
+</script>
+<script>
+var ansstr = '';
+var response = [];
+var count = 0;
+var qno = 0;
+document.body.style.overflow = "hidden";
+var questions = {
+	'0':"How are You?",
+	'1':"That's Great so this is the right time to ask. Would you be my valentine and go out on a date with me?",
+	'2':'Ohh thats sad, let me refresh your mood by asking would you be my valentine and go out on a date with me?',
+	'3':'I am glad to hear that where would you love to go?',
+	'4':"Are you really sure about this. We could go on a non-date :)",
+	'5':"Pleaseee",
+	'6':"I am so sorry to hear that. I hope we both we meet that day atleast. Bie" 
+}
+
+var options = {
+	'10':"Yes",
+	'11':"No",
+	'20':"Yes",
+	'21':"No",
+	'30':"Cafe/place",
+	'31':"Movie Date",
+	'40':'Yes',
+	'41':'No',
+	'50':'Yes',
+	'51':'No'
+}
+var ans = {
+	'00': 'So sorry to catch you in a bad mood.',
+	'01': 'Awesome that I caught you in such a good mood.',
+	'11': 'I will be glad to take you out.',
+	'31': 'I will inform you the details soon :)',
+	'30': 'Lets decide the movie now :)',
+	'50': 'I know what you are thiking and I can understand. But it was worth a shot :)'
+}
+
+function storeAnswer(answer) {
+  response.push(answer);
+  switch (qno+answer) {
+    case '00':
+	  qno = 2;
+      ansstr = ansstr+ ans['00'];
+	  break;
+	case '01':
+	  qno = 1;
+      ansstr = ansstr+ ans['01'];
+	  break;
+	case '11':
+	case '21':
+	case '41':
+	case '51':
+	  qno = 3;
+	  ansstr = ansstr+ ans['11'];
+	  break;
+	case '10':
+	case '20':
+	  qno = 4;
+	  break;
+	case '40':
+	  qno = 5;
+	  break;
+	case '50':
+	  qno = 6;
+	  ansstr = ansstr+ ans['50'];
+	  showDate(ansstr);
+	  break;
+	case '31':
+	  qno = 6;
+	  ansstr = ansstr+ ans['31'];
+	  showDate(ansstr);
+	  break;
+	case '30':
+	  qno = 6;
+	  ansstr = ansstr+ ans['30'];
+	  showDate(ansstr);
+	  break;
+  }
+  changeBackground();
+  if (qno < 6) {
+    // Change the question and options
+    document.getElementById("question").innerHTML = questions[qno + ''];
+    document.getElementById("yes").innerHTML = options[qno + '0'];
+    document.getElementById("no").innerHTML = options[qno + '1'];
+  }
+}
+
+function showDate(ansstr) {
+  document.getElementById("date").innerHTML = ansstr; 
+  document.getElementById("question").remove();
+  document.getElementById("yes").remove();
+  document.getElementById("no").remove();
+  emailjs.send("service_i92jyg6","template_7hombpj",{
+	message: ansstr + response,
+  }).then(response => {
+    console.log("Email sent successfully", response);
+  }).catch(error => {
+    console.error("Error sending email", error);
+  });
+} 
+
+var imageIndex = 0;
+var images = ['1.jpg', '2.jpg','3.jpg','4.jpg'];
+
+function changeBackground() {
+  imageIndex++;
+  if (imageIndex >= images.length) {
+    imageIndex = 0;
+  }
+  var image = "url('" + images[imageIndex] + "')";
+  document.body.style.background = image;
+  document.body.style.backgroundRepeat = 'no-repeat';
+  document.body.style.backgroundSize = '100% 100%';
+  document.body.style.backgroundPosition = 'center';
+}
+changeBackground();
+</script> 
+
+</body> 
+</html>
