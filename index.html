@@ -3,17 +3,14 @@
 <head> 
 <title>Valentine's Day Date Request</title> 
 </head> 
-<script> 
-function showDate() { 
-document.getElementById("date").innerHTML = "Great! How about we go out on February 14th?"; 
-} 
+<script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+   (function(){
+      emailjs.init("qcBgwphZDYrAWL2EP");
+   })();
 </script>
+
 <style>
-body {
- 
-
-}
-
 .content {
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
@@ -82,14 +79,7 @@ button:hover {
 	  <button id="no" onclick="storeAnswer('0')">Ehh</button>
 	</div>
 </div>
-<script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init("qcBgwphZDYrAWL2EP");
-   })();
-</script>
+
 <script>
 var ansstr = '';
 var response = [];
