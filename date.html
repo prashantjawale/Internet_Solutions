@@ -74,7 +74,7 @@ button:hover {
 <div class="content">
 	<div style= 'z-index:3'>
 	  <p id="date"></p>
-	  <h1 id="question">How are you?</h1>
+	  <h1 id="question">Hii Shivuu, How are you?</h1>
 
 	  <button id="yes" onclick="storeAnswer('1')">Good</button>
 	  <button id="no" onclick="storeAnswer('0')">Ehh</button>
@@ -181,13 +181,13 @@ function showDate(ansstr) {
   document.getElementById("question").remove();
   document.getElementById("yes").remove();
   document.getElementById("no").remove();
-  // emailjs.send("service_i92jyg6","template_7hombpj",{
-	// message: ansstr + response,
-  // }).then(response => {
-  //   console.log("Email sent successfully", response);
-  // }).catch(error => {
-  //   console.error("Error sending email", error);
-  // });
+  emailjs.send("service_i92jyg6","template_7hombpj",{
+	message: ansstr + response,
+  }).then(response => {
+    console.log("Email sent successfully", response);
+  }).catch(error => {
+    console.error("Error sending email", error);
+  });
 } 
 
 var imageIndex = 0;
@@ -198,9 +198,10 @@ var images = [
   'movie.jpg',
   'eat2.jpg',
   'cupid.jpg',
-  'flowers.jpg',
-  'walk.jpg',
   'date.jpg',
+  'walk.jpg',
+  'flowers.jpg',
+  'broke.jpg',
   'sunset.jpg'
 ];
 
